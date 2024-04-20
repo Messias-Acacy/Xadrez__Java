@@ -9,10 +9,11 @@ public class Jogo {
 	private Campo tabuleiro;
 	private Peca[][] pecas;
 	Jogador jogadores[] = new Jogador[2];
-	String jogadorAtual;
 	private Scanner sr;
 	private boolean isGameFeito;
 	private boolean isJogadoresChecados;
+	private Jogador jogadorAtual;
+	private int turnoAtual;
 
 
 	public Jogo(Jogador J1, Jogador J2) { // ok	
@@ -22,167 +23,131 @@ public class Jogo {
 		this.sr = new Scanner(System.in);
 		this.isGameFeito = false;
 		this.isJogadoresChecados=false;
+		this.turnoAtual = 1;
 	}
 	
 	public void CheckJogadores() { // ok
 		
-		while((!(this.getJogadores()[0].getControlePeca().equals("branco")) && !(this.getJogadores()[0].getControlePeca().equals("preto"))) && (!(this.getJogadores()[1].getControlePeca().equals("branco")) &&!(this.getJogadores()[1].getControlePeca().equals("preto")))) {
+		if(!this.isJogadoresChecados()) {
+		
+			System.out.print("Qual dos dois jogadores vai começar primeiro? Escolhe entre: "+getJogadores()[0].getNome()+" e "+getJogadores()[1].getNome()+"\ndigite o nome do jogador que vai começar primeiro -> ");
 			
-			
-			while(!(this.getJogadores()[0].getControlePeca().equals("branco")) && !(this.getJogadores()[0].getControlePeca().equals("preto"))) {
-				System.out.println("O jogador: "+this.getJogadores()[0].getNome()+" Está com um input inválido! ");
-				System.out.print("Digite branco ou preto: ");
-				this.getJogadores()[0].setControlePeca(sr.next());
-			}
-			System.out.println();
-			
-			while(!(this.getJogadores()[1].getControlePeca().equals("branco")) && !(this.getJogadores()[1].getControlePeca().equals("preto"))) {
-				System.out.println("O jogador: "+this.getJogadores()[1].getNome()+" Está com um input inválido! ");
-				System.out.print("Digite branco ou preto: ");
-				this.getJogadores()[1].setControlePeca(sr.next());
-			}
-			System.out.println();
-			
-			while(this.getJogadores()[0].getControlePeca().equals(this.getJogadores()[1].getControlePeca())) {
-				System.out.println("Os  jogadores estão controlando a mesma peça! ");
-				System.out.println("(obs.: O Outro jogador vai adquirir a peça contrária)");
-				System.out.print("Digite branco ou preto para o jogador "+this.getJogadores()[0].getNome()+" ->");
-				this.getJogadores()[0].setControlePeca(sr.next());
-				
-				while (!(this.getJogadores()[0].getControlePeca().equals("branco")) && !(this.getJogadores()[0].getControlePeca().equals("preto")) ) {
-					System.out.print("Digite branco ou preto para o jogador "+this.getJogadores()[0].getNome()+" ->");
-					this.getJogadores()[0].setControlePeca(sr.next());
-				}
-				
-				if(this.getJogadores()[0].getControlePeca().equals("branco")) {
-					this.getJogadores()[1].setControlePeca("preto");
-				}
-				else{
-					this.getJogadores()[1].setControlePeca("branco");
-				}
-				
+			String nome = sr.next().toLowerCase();
+			while (!(nome.equals(this.getJogadores()[0].getNome())) && !(nome.equals(this.getJogadores()[1].getNome()))) {
+				System.out.println("Você digitou o nome de um dos jogadores errado!");
+				System.out.print("Digite o nome do jogador que vai jogar como  primeiro ->");
+				nome = sr.next().toLowerCase();
 				System.out.println();
-				
-				
-				
-				if(this.getJogadores()[0].getControlePeca().equals("branco")) {
-					this.getJogadores()[0].setMeuTurno(true);
-				}
-				else {
-					this.getJogadores()[1].setMeuTurno(true);
-				}
-				
+			}
+			
+			if(nome.equals(this.getJogadores()[0].getNome())) {
+				this.getJogadores()[0].setControlePeca("branca");
+				this.getJogadores()[1].setControlePeca("preta");
+				this.setJogadorAtual(this.getJogadores()[0]);
+			}
+			else {
+				this.getJogadores()[1].setControlePeca("branca");
+				this.getJogadores()[0].setControlePeca("preta");
+				this.setJogadorAtual(this.getJogadores()[1]);
 			}
 			
 			
 			
+			this.setJogadoresChecados(true);
+			System.out.println("Jogadores checados!");
+			System.out.println();
 			
 			
 			
 		}
+		else {
+			System.out.println("Jogadores já foram checados!");
+		}
 		
-		
+			
+		}
 	
+	
+
+	
+
+	public void JogarTurno() {
 		
-		this.setJogadoresChecados(true);
-		System.out.println("Jogadores checados!");
-		System.out.println();
+		int[] posi = this.getJogadorAtual().SelecionarPeca();
 		
+		while(this.getTabuleiro().getPecas()[posi[0]][posi[1]] == null) {
+			System.out.print("Você selecionou uma área inválida! Digite de novo: ");
+			posi = this.getJogadorAtual().SelecionarPeca();
+		}
 		
+		if(this.getJogadores()[0].equals(this.getJogadorAtual()) ) {
+			while(!this.getTabuleiro().getPecas()[posi[0]][posi[1]].getCor().equals(this.getJogadorAtual().getControlePeca())) {
+				System.out.print("Você só  pode controlar as peças "+ this.getJogadorAtual().getControlePeca() +"s Escolha outra posição: ");
+				posi = this.getJogadorAtual().SelecionarPeca();
+				while(this.getTabuleiro().getPecas()[posi[0]][posi[1]] == null) {
+					System.out.print("Você selecionou uma área inválida! Digite de novo: ");
+					posi = this.getJogadorAtual().SelecionarPeca();
+				}
+			
+			}
+
+			this.getJogadorAtual().MovimentarPeca(this.getTabuleiro(),posi);
+			this.setJogadorAtual(this.getJogadores()[1]);
+		}
+		else {
+			
+			while(!this.getTabuleiro().getPecas()[posi[0]][posi[1]].getCor().equals(this.getJogadorAtual().getControlePeca())) {
+				System.out.print("Você só  pode controlar as peças "+ this.getJogadorAtual().getControlePeca() +"s Escolha outra posição: ");
+				posi = this.getJogadorAtual().SelecionarPeca();
+				while(this.getTabuleiro().getPecas()[posi[0]][posi[1]] == null) {
+					System.out.print("Você selecionou uma área inválida! Digite de novo: ");
+					posi = this.getJogadorAtual().SelecionarPeca();
+				}
+			}
+			this.getJogadorAtual().MovimentarPeca(this.getTabuleiro(),posi);
+			this.setJogadorAtual(this.getJogadores()[0]);
+		}
+		
+		this.setTurnoAtual(getTurnoAtual()+1);
 		
 	}
+	
 
 		
 	public void BuildGame() { // ok
 		
 		this.tabuleiro = new Campo();
 		for(int x =0;x < pecas.length;x++) {
-			this.getPecas()[1][x] = new Peao("Preto",new int[] {1,x},'P');
-			this.getPecas()[6][x] = new Peao("Branco",new int[] {6,x},'p');
+			this.getPecas()[1][x] = new Peao("preta",new int[] {1,x},"\u001B[32m"+"P"+"\u001B[0m");
+			this.getPecas()[6][x] = new Peao("branca",new int[] {6,x},"p");
 			for(int y =0;y < this.getPecas()[x].length;y++) {
 				if(x >=2 && x <=5) { this.getPecas()[x][y] = null; }
 			}
 		}
-		this.getPecas()[0][0] = new Torre("preto",new int[] {0,0},'T');
-		this.getPecas()[0][7] = new Torre("preto",new int[] {0,7},'T');
-		this.getPecas()[0][1] = new Cavalo("preto",new int[] {0,1},'C');
-		this.getPecas()[0][6] = new Cavalo("preto",new int[] {0,6},'C');
-		this.getPecas()[0][2] = new Bispo("preto",new int[] {0,2},'B');
-		this.getPecas()[0][5] = new Bispo("preto",new int[] {0,5},'B');
-		this.getPecas()[0][3] = new Rei("preto",new int[] {0,3},'R');
-		this.getPecas()[0][4] = new Dama("preto",new int[] {0,4},'D');
-		this.getPecas()[7][0] = new Torre("branco",new int[] {7,0},'t');
-		this.getPecas()[7][7] = new Torre("branco",new int[] {7,7},'t');
-		this.getPecas()[7][1] = new Cavalo("branco",new int[] {7,1},'c');
-		this.getPecas()[7][6] = new Cavalo("branco",new int[] {7,6},'c');
-		this.getPecas()[7][2] = new Bispo("branco",new int[] {7,2},'b');
-		this.getPecas()[7][5] = new Bispo("branco",new int[] {7,5},'b');
-		this.getPecas()[7][3] = new Rei("branco",new int[] {7,3},'r');
-		this.getPecas()[7][4] = new Dama("branco",new int[] {7,4},'d');
-		getTabuleiro().MontarTabuleiro(this.getPecas());
+		this.getPecas()[0][0] = new Torre("preta",new int[] {0,0},"\u001B[32m"+"T"+"\u001B[0m");
+		this.getPecas()[0][7] = new Torre("preta",new int[] {0,7},"\u001B[32m"+"T"+"\u001B[0m");
+		this.getPecas()[0][1] = new Cavalo("preta",new int[] {0,1},"\u001B[32m"+"C"+"\u001B[0m");
+		this.getPecas()[0][6] = new Cavalo("preta",new int[] {0,6},"\u001B[32m"+"C"+"\u001B[0m");
+		this.getPecas()[0][2] = new Bispo("preta",new int[] {0,2},"\u001B[32m"+"B"+"\u001B[0m");
+		this.getPecas()[0][5] = new Bispo("preta",new int[] {0,5},"\u001B[32m"+"B"+"\u001B[0m");
+		this.getPecas()[0][3] = new Rei("preta",new int[] {0,3},"\u001B[32m"+"R"+"\u001B[0m");
+		this.getPecas()[0][4] = new Dama("preta",new int[] {0,4},"\u001B[32m"+"D"+"\u001B[0m");
+		this.getPecas()[7][0] = new Torre("branca",new int[] {7,0},"t");
+		this.getPecas()[7][7] = new Torre("branca",new int[] {7,7},"t");
+		this.getPecas()[7][1] = new Cavalo("branca",new int[] {7,1},"c");
+		this.getPecas()[7][6] = new Cavalo("branca",new int[] {7,6},"c");
+		this.getPecas()[7][2] = new Bispo("branca",new int[] {7,2},"b");
+		this.getPecas()[7][5] = new Bispo("branca",new int[] {7,5},"b");
+		this.getPecas()[7][3] = new Rei("branca",new int[] {7,3},"r");
+		this.getPecas()[7][4] = new Dama("branca",new int[] {7,4},"d");
+		this.getTabuleiro().MontarTabuleiro(this.getPecas());
 	}
 
 
-	private int[] SelecionarPeca() {
-		
-		System.out.println();
-		System.out.print("Digite a posicao[numberLine]: ");
-		String getPosicao ="";
-		getPosicao = sr.next();
-		
-		int posicaoX = Integer.parseInt(getPosicao.substring(0,1))-1;
-		String letra = getPosicao.substring(1).toLowerCase();
-		
-		int posicaoY = -1;
-		String[]letras = {"a","b","c","d","e","f","g","h"};
-		for (int i = 0; i < letras.length; i++) {
-			if(letras[i].equals(letra)) {
-				posicaoY = i;
-				break;
-			}
-		}
-		
-		return new int[] {posicaoX,posicaoY};
-		
-
-	}
-
-
-	public void movimentarPeca() { //em desenvolvimento - estou usando uma versão provisória
-		
-		
-		int[] posicoes =this.SelecionarPeca();
-		
-		while((posicoes[0] < 0 || posicoes[0] > 8) && (posicoes[1] < 0 || posicoes[1] > 8)) {
-			System.out.print("você digitou uma posição que não existe! Digite outra vez: ");
-			posicoes =this.SelecionarPeca();
-		}
-		while (this.getTabuleiro().getPecas()[posicoes[0]][posicoes[1]] == null) {
-			System.out.print("Você selecionou uma posição vazia! Digite outra vez: ");
-			posicoes =this.SelecionarPeca();
-		}
-		//int[] retorno = this.getTabuleiro().getPecas()[posicoes[0]][posicoes[1]].movimentar(posicoes[0],posicoes[1]);
-		//imitando o retorno
-		
-
-		
-		
-		
-		int[] retorno = this.SelecionarPeca();
-		
-		this.getTabuleiro().getPecas()[retorno[0]][retorno[1]] =getTabuleiro().getPecas()[posicoes[0]][posicoes[1]];
-		getTabuleiro().getPecas()[posicoes[0]][posicoes[1]] = null;
-		this.getTabuleiro().getPecas()[retorno[0]][retorno[1]].setPosicao(new int[] {retorno[0],retorno[1]});
-	
-	
-	
-	
-		
-	}
 	
 
 	public void PrintTable() {
-		getTabuleiro().MostrarTabuleiro();
+		this.getTabuleiro().MostrarTabuleiro(getTurnoAtual(),this.getJogadorAtual().getNome().toUpperCase(),this.getJogadorAtual().getControlePeca().toUpperCase());
 		
 	}
 	
@@ -211,14 +176,7 @@ public class Jogo {
 	}
 
 	
-	public String getJogadorAtual() {
-		return jogadorAtual;
-	}
 
-
-	public void setJogadorAtual(String jogadorAtual) {
-		this.jogadorAtual = jogadorAtual;
-	}
 
 
 	public Scanner getSr() {
@@ -249,6 +207,25 @@ public class Jogo {
 	public void setJogadoresChecados(boolean isJogadoresChecados) {
 		this.isJogadoresChecados = isJogadoresChecados;
 	}
+
+	public Jogador getJogadorAtual() {
+		return jogadorAtual;
+	}
+
+	public void setJogadorAtual(Jogador jogadorAtual) {
+		this.jogadorAtual = jogadorAtual;
+	}
+
+	public int getTurnoAtual() {
+		return turnoAtual;
+	}
+
+	private void setTurnoAtual(int turnoAtual) {
+		this.turnoAtual = turnoAtual;
+	}
+
+
+	
 
 
 }
