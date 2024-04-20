@@ -1,5 +1,6 @@
 package Tabuleiro;
 
+
 import Pecas.*;
  public class Campo implements Tabuleiro{
 
@@ -25,7 +26,11 @@ import Pecas.*;
 	}
 
 	@Override
-	public void MostrarTabuleiro() {
+	public void MostrarTabuleiro(int contador,String jogadorAtual,String corPeca) {
+		System.out.println("￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣");
+		System.out.println("TURNO ATUAL: "+contador+"º");
+		System.out.println("JOGADOR ATUAL: "+jogadorAtual);
+		System.out.println("PEÇA: "+corPeca);
 		System.out.println("_______XADREZ_______");
 		char letras[] = {'a','b','c','d','e','f','g','h'};
 		short numeros[] = {1,2,3,4,5,6,7,8};
@@ -67,7 +72,8 @@ import Pecas.*;
 		for(int x =0;x < letras.length;x++) {
 			System.out.print(letras[x]+" ");
 		}
-		
+		System.out.println();
+		System.out.println("______________________________________");
 	}
 	
 	public Peca[][] getPecas(){
