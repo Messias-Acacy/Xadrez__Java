@@ -1,5 +1,7 @@
 package Pecas;
 
+import Tabuleiro.Campo;
+
 public class Torre  extends Peca{
 
 	
@@ -8,15 +10,15 @@ public class Torre  extends Peca{
 	 * @param posicao
 	 * @param letra
 	 */
-	public Torre(String cor, int[] posicao, char letra) {
-		super(cor, posicao, letra);
+	public Torre(String cor, int[] posicao, String letra,Campo tabuleiro) {
+		super(cor, posicao, letra,tabuleiro);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public int movimentar(int posicaoX, int posicaoY) {
+	public int[][] movimentar(int[] posicoes,String cor) {
 		// TODO Auto-generated method stub
-		return 0;
+		return new int[][] {{6,0}};
 	}
 
 }

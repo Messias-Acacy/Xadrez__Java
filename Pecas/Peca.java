@@ -1,9 +1,10 @@
 package Pecas;
-
+import Tabuleiro.Campo;
 public abstract class Peca {
 	private String cor;
 	private int[] posicao;
-	private char Letra;
+	private String Letra;
+	private Campo tabuleiro;
 	//private jogador jogador;
 	
 	
@@ -11,17 +12,18 @@ public abstract class Peca {
 		
 	}
 
-	public Peca(String cor, int[] posicao,char letra) {
+	public Peca(String cor, int[] posicao,String letra, Campo tabuleiro) {
 		this.cor = cor;
 		this.posicao = posicao;
 		this.Letra = letra;
+		this.tabuleiro = tabuleiro;
 
 	}
 
 
 
 
-	public abstract int movimentar(int posicaoX, int posicaoY) ;
+	public abstract int[][] movimentar(int[] posicoes,String cor) ;
 
 
 
@@ -52,9 +54,19 @@ public abstract class Peca {
 	}
 	
 	
-	public char getLetra() {
+	public String getLetra() {
 		return this.Letra;
 	}
+
+	public Campo getTabuleiro() {
+		return tabuleiro;
+	}
+
+	public void setTabuleiro(Campo tabuleiro) {
+		this.tabuleiro = tabuleiro;
+	}
+	
+	
 	
 	
 
