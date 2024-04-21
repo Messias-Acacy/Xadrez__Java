@@ -71,13 +71,16 @@ public void MovimentarPeca(Campo tabuleiro, int[] pos) {
 	while (tabuleiro.getPecas()[posicoes[0]][posicoes[1]] == null) {
 		System.out.print("Você selecionou uma posição vazia! Digite outra vez: ");
 		posicoes =this.SelecionarPeca();
-
-}
+		}
+	
+		int[] retorno = tabuleiro.getPecas()[posicoes[0]][posicoes[1]].movimentar(posicoes,getControlePeca())[0];
+		System.out.println(retorno[0]+","+retorno[1]+" - <- Tá em jogador");
+		//necessidade de poder mostrar na tela o array e dps fazer o jogador digitar a posição que ele
+		//uqer jogar
 		
-		//int[] retorno = this.getTabuleiro().getPecas()[posicoes[0]][posicoes[1]].movimentar(posicoes[0],posicoes[1]);
-		//imitando o retorno
 		
-	int[] retorno = this.SelecionarPeca();
+	//Codigo funcional
+	//int[] retorno = this.SelecionarPeca();
 	tabuleiro.getPecas()[retorno[0]][retorno[1]] =tabuleiro.getPecas()[posicoes[0]][posicoes[1]];
 	tabuleiro.getPecas()[posicoes[0]][posicoes[1]] = null;
 	tabuleiro.getPecas()[retorno[0]][retorno[1]].setPosicao(new int[] {retorno[0],retorno[1]});
