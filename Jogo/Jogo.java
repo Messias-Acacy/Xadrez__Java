@@ -14,6 +14,7 @@ public class Jogo {
 	private boolean isJogadoresChecados;
 	private Jogador jogadorAtual;
 	private int turnoAtual;
+	private boolean isJogando;
 
 
 	public Jogo(Jogador J1, Jogador J2) { // ok	
@@ -24,6 +25,7 @@ public class Jogo {
 		this.isGameFeito = false;
 		this.isJogadoresChecados=false;
 		this.turnoAtual = 1;
+		this.isJogando = false;
 	}
 	
 	public void CheckJogadores() { // ok
@@ -118,28 +120,28 @@ public class Jogo {
 		
 		this.tabuleiro = new Campo();
 		for(int x =0;x < pecas.length;x++) {
-			this.getPecas()[1][x] = new Peao("preta",new int[] {1,x},"\u001B[32m"+"P"+"\u001B[0m");
-			this.getPecas()[6][x] = new Peao("branca",new int[] {6,x},"p");
+			this.getPecas()[1][x] = new Peao("preta",new int[] {1,x},"\u001B[32m"+"P"+"\u001B[0m",new int[] {1,x},this.getTabuleiro());
+			this.getPecas()[6][x] = new Peao("branca",new int[] {6,x},"p",new int[] {6,x},this.getTabuleiro());
 			for(int y =0;y < this.getPecas()[x].length;y++) {
 				if(x >=2 && x <=5) { this.getPecas()[x][y] = null; }
 			}
 		}
-		this.getPecas()[0][0] = new Torre("preta",new int[] {0,0},"\u001B[32m"+"T"+"\u001B[0m");
-		this.getPecas()[0][7] = new Torre("preta",new int[] {0,7},"\u001B[32m"+"T"+"\u001B[0m");
-		this.getPecas()[0][1] = new Cavalo("preta",new int[] {0,1},"\u001B[32m"+"C"+"\u001B[0m");
-		this.getPecas()[0][6] = new Cavalo("preta",new int[] {0,6},"\u001B[32m"+"C"+"\u001B[0m");
-		this.getPecas()[0][2] = new Bispo("preta",new int[] {0,2},"\u001B[32m"+"B"+"\u001B[0m");
-		this.getPecas()[0][5] = new Bispo("preta",new int[] {0,5},"\u001B[32m"+"B"+"\u001B[0m");
-		this.getPecas()[0][3] = new Rei("preta",new int[] {0,3},"\u001B[32m"+"R"+"\u001B[0m");
-		this.getPecas()[0][4] = new Dama("preta",new int[] {0,4},"\u001B[32m"+"D"+"\u001B[0m");
-		this.getPecas()[7][0] = new Torre("branca",new int[] {7,0},"t");
-		this.getPecas()[7][7] = new Torre("branca",new int[] {7,7},"t");
-		this.getPecas()[7][1] = new Cavalo("branca",new int[] {7,1},"c");
-		this.getPecas()[7][6] = new Cavalo("branca",new int[] {7,6},"c");
-		this.getPecas()[7][2] = new Bispo("branca",new int[] {7,2},"b");
-		this.getPecas()[7][5] = new Bispo("branca",new int[] {7,5},"b");
-		this.getPecas()[7][3] = new Rei("branca",new int[] {7,3},"r");
-		this.getPecas()[7][4] = new Dama("branca",new int[] {7,4},"d");
+		this.getPecas()[0][0] = new Torre("preta",new int[] {0,0},"\u001B[32m"+"T"+"\u001B[0m",this.getTabuleiro());
+		this.getPecas()[0][7] = new Torre("preta",new int[] {0,7},"\u001B[32m"+"T"+"\u001B[0m",this.getTabuleiro());
+		this.getPecas()[0][1] = new Cavalo("preta",new int[] {0,1},"\u001B[32m"+"C"+"\u001B[0m",this.getTabuleiro());
+		this.getPecas()[0][6] = new Cavalo("preta",new int[] {0,6},"\u001B[32m"+"C"+"\u001B[0m",this.getTabuleiro());
+		this.getPecas()[0][2] = new Bispo("preta",new int[] {0,2},"\u001B[32m"+"B"+"\u001B[0m",this.getTabuleiro());
+		this.getPecas()[0][5] = new Bispo("preta",new int[] {0,5},"\u001B[32m"+"B"+"\u001B[0m",this.getTabuleiro());
+		this.getPecas()[0][3] = new Rei("preta",new int[] {0,3},"\u001B[32m"+"R"+"\u001B[0m",this.getTabuleiro());
+		this.getPecas()[0][4] = new Dama("preta",new int[] {0,4},"\u001B[32m"+"D"+"\u001B[0m",this.getTabuleiro());
+		this.getPecas()[7][0] = new Torre("branca",new int[] {7,0},"t",this.getTabuleiro());
+		this.getPecas()[7][7] = new Torre("branca",new int[] {7,7},"t",this.getTabuleiro());
+		this.getPecas()[7][1] = new Cavalo("branca",new int[] {7,1},"c",this.getTabuleiro());
+		this.getPecas()[7][6] = new Cavalo("branca",new int[] {7,6},"c",this.getTabuleiro());
+		this.getPecas()[7][2] = new Bispo("branca",new int[] {7,2},"b",this.getTabuleiro());
+		this.getPecas()[7][5] = new Bispo("branca",new int[] {7,5},"b",this.getTabuleiro());
+		this.getPecas()[7][3] = new Rei("branca",new int[] {7,3},"r",this.getTabuleiro());
+		this.getPecas()[7][4] = new Dama("branca",new int[] {7,4},"d",this.getTabuleiro());
 		this.getTabuleiro().MontarTabuleiro(this.getPecas());
 	}
 
@@ -224,7 +226,15 @@ public class Jogo {
 		this.turnoAtual = turnoAtual;
 	}
 
+	public boolean isJogando() {
+		return isJogando;
+	}
 
+	public void setJogando(boolean isJogando) {
+		this.isJogando = isJogando;
+	}
+
+	
 	
 
 

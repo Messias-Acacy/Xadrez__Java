@@ -4,7 +4,7 @@ import Jogador.*;
 public class MainJogo {
 
 	public static void main(String[] args) {
-		Jogo jogo = new Jogo(new Jogador("Messias"), new Jogador("josé"));
+		Jogo jogo = new Jogo(new Jogador("Messias"), new Jogador("j"));
 		jogo.BuildGame();
 		jogo.CheckJogadores();
 		while(true) {
