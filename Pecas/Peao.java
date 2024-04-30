@@ -1,15 +1,18 @@
 package Pecas;
 
+import java.util.ArrayList;
+
+import Jogador.CorPeca;
 import Tabuleiro.Campo;
 
 
 public class Peao extends Peca{
 	private int[] posicaoInicial;
 	
-	public Peao(String cor, int[] posicao,String letra,int[] posicaoInicial,Campo tabuleiro) {
+	public Peao(CorPeca cor, int[] posicao,String letra,int[] posicaoInicial,Campo tabuleiro) {
 		super(cor, posicao,letra,tabuleiro);
 		this.posicaoInicial =posicaoInicial;
-		// TODO Auto-generated constructor stub
+
 	}
 
 	
@@ -20,18 +23,23 @@ public class Peao extends Peca{
 
 
 	@Override
-	public int[][] movimentar(int[] posicoes,String cor) {
+	public int[][] movimentar(int[] posicoes,CorPeca Peca) {
 		int z = 0;
-		if(cor == "branca") {
+		ArrayList<String> posicoesJovais = new ArrayList<>();
+		
+		if(Peca == CorPeca.BRANCA) {
 			if(posicoes[0] == posicaoInicial[0] && posicoes[1] == posicaoInicial[1]) {
 				for(int x = 0;x < 2;x++) {
 					z++;
+					posicoesJovais.add(posicoes[0]-z+","+0);
 				}
 			}
 			else {
 				for(int x = 0;x < 1;x++) {
 						z++; }
 			}
+			
+			
 			return new int[][] {{posicoes[0]-z,0}};
 		}
 		else {

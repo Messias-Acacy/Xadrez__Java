@@ -1,7 +1,8 @@
 package Pecas;
+import Jogador.CorPeca;
 import Tabuleiro.Campo;
 public abstract class Peca {
-	private String cor;
+	private CorPeca cor;
 	private int[] posicao;
 	private String Letra;
 	private Campo tabuleiro;
@@ -12,7 +13,7 @@ public abstract class Peca {
 		
 	}
 
-	public Peca(String cor, int[] posicao,String letra, Campo tabuleiro) {
+	public Peca(CorPeca cor, int[] posicao,String letra, Campo tabuleiro) {
 		this.cor = cor;
 		this.posicao = posicao;
 		this.Letra = letra;
@@ -23,21 +24,19 @@ public abstract class Peca {
 
 
 
-	public abstract int[][] movimentar(int[] posicoes,String cor) ;
+	public abstract int[][] movimentar(int[] posicoes,CorPeca Peca) ;
 
 
 
 
-	public String getCor() {
+	public CorPeca getCor() {
 		return cor;
 	}
 
 
 
 
-	public void setCor(String cor) {
-		this.cor = cor;
-	}
+
 
 
 
