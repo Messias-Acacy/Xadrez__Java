@@ -1,6 +1,7 @@
 package Tabuleiro;
 
 
+import Jogador.CorPeca;
 import Pecas.*;
  public class Campo implements Tabuleiro{
 
@@ -26,7 +27,7 @@ import Pecas.*;
 	}
 
 	@Override
-	public void MostrarTabuleiro(int contador,String jogadorAtual,String corPeca) {
+	public void MostrarTabuleiro(int contador,String jogadorAtual,CorPeca corPeca) {
 		System.out.println("￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣");
 		System.out.println("TURNO ATUAL: "+contador+"º");
 		System.out.println("JOGADOR ATUAL: "+jogadorAtual);
